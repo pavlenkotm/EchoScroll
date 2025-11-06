@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-cinzel: 'Cinzel', serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .magic-glow {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.5),
+                0 0 40px rgba(107, 70, 193, 0.3);
+  }
+
+  .scroll-card {
+    @apply bg-gradient-to-br from-purple-900/40 to-mystic-blue/40
+           backdrop-blur-sm border border-spell-gold/20
+           rounded-lg p-6 shadow-xl
+           hover:border-spell-gold/40 transition-all duration-300;
+  }
+
+  .spell-input {
+    @apply bg-purple-900/50 border-2 border-spell-gold/30
+           rounded-lg px-4 py-3 text-ancient-parchment
+           placeholder-ancient-parchment/50
+           focus:border-spell-gold focus:ring-2 focus:ring-spell-gold/20
+           transition-all duration-300;
+  }
+
+  .magic-button {
+    @apply bg-gradient-to-r from-mystic-purple to-spell-gold
+           text-white font-semibold py-3 px-6 rounded-lg
+           hover:scale-105 active:scale-95
+           transition-all duration-200
+           shadow-lg hover:shadow-xl;
+  }
+
+  .ancient-text {
+    @apply font-serif text-ancient-parchment;
+  }
+}
+
+/* SimpleMDE Editor Styling */
+.EasyMDEContainer {
+  @apply bg-purple-900/30 backdrop-blur-sm;
+}
+
+.EasyMDEContainer .CodeMirror {
+  @apply bg-transparent text-ancient-parchment border-spell-gold/20;
+  font-family: var(--font-inter);
+}
+
+.EasyMDEContainer .editor-toolbar {
+  @apply bg-purple-900/50 border-spell-gold/20;
+}
+
+.EasyMDEContainer .editor-toolbar button {
+  @apply text-ancient-parchment hover:bg-spell-gold/20;
+}
+
+.EasyMDEContainer .editor-toolbar.fullscreen,
+.EasyMDEContainer .CodeMirror-fullscreen {
+  @apply bg-mystic-blue/95 backdrop-blur-md;
+}
+
+/* Markdown Preview Styling */
+.markdown-preview {
+  @apply prose prose-invert max-w-none;
+}
+
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3 {
+  @apply font-serif text-spell-gold;
+}
+
+.markdown-preview code {
+  @apply bg-purple-900/50 px-2 py-1 rounded text-sm;
+}
+
+.markdown-preview pre {
+  @apply bg-purple-900/30 p-4 rounded-lg overflow-x-auto;
+}
+
+.markdown-preview a {
+  @apply text-spell-gold hover:underline;
+}
