@@ -44,3 +44,24 @@ typechain-types/
 # secrets
 .secret
 private.key
+.env
+.env.local
+.env.*.local
+node_modules/
+.next/
+out/
+dist/
+build/
+*.log
+npm-debug.log*
+coverage/
+.nyc_output/
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.iml
+.cache/
+
