@@ -1,0 +1,41 @@
+# Git attributes for better diff and merge handling
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code
+*.sol linguist-language=Solidity
+*.vy linguist-language=Python
+*.move linguist-language=Move
+*.rs linguist-language=Rust
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+*.py linguist-language=Python
+*.go linguist-language=Go
+*.java linguist-language=Java
+*.kt linguist-language=Kotlin
+*.swift linguist-language=Swift
+*.cpp linguist-language=C++
+*.h linguist-language=C++
+*.hs linguist-language=Haskell
+
+# Documentation
+*.md linguist-documentation
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Lock files - no diff
+package-lock.json -diff
+yarn.lock -diff
+Cargo.lock -diff
