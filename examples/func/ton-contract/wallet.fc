@@ -1,0 +1,84 @@
+;; FunC Smart Contract for TON Blockchain
+;; Simple wallet contract demonstrating TON's actor model
+
+#include "stdlib.fc";
+
+;; Storage structure
+;; storage$_ seqno:uint32 public_key:uint256 = Storage;
+
+(int, int) load_data() inline {
+  var ds = get_data().begin_parse();
+  return (
+    ds~load_uint(32),  ;; seqno
+    ds~load_uint(256)  ;; public_key
+  );
+}
+
+() save_data(int seqno, int public_key) impure inline {
+  set_data(begin_cell()
+    .store_uint(seqno, 32)
+    .store_uint(public_key, 256)
+    .end_cell());
+}
+
+() recv_internal(int msg_value, cell in_msg, slice in_msg_body) impure {
+  ;; Handle internal messages (can be empty for basic wallet)
+}
+
+() recv_external(slice in_msg) impure {
+  var signature = in_msg~load_bits(512);
+  var cs = in_msg;
+  var (msg_seqno, valid_until) = (cs~load_uint(32), cs~load_uint(32));
+
+  throw_if(35, valid_until < now());
+
+  var (stored_seqno, public_key) = load_data();
+  throw_unless(33, msg_seqno == stored_seqno);
+
+  ;; Verify signature
+  throw_unless(34, check_signature(slice_hash(in_msg), signature, public_key));
+
+  accept_message();
+
+  ;; Process actions
+  var mode = cs~load_uint(8);
+  send_raw_message(cs~load_ref(), mode);
+
+  ;; Increment seqno
+  save_data(stored_seqno + 1, public_key);
+}
+
+;; Get methods
+int seqno() method_id {
+  var (seqno, _) = load_data();
+  return seqno;
+}
+
+int get_public_key() method_id {
+  var (_, public_key) = load_data();
+  return public_key;
+}
+
+;; TON Simple Transfer Contract
+;; Demonstrates TON's message-based architecture
+
+() send_grams(slice dest_addr, int amount, int mode) impure {
+  var msg = begin_cell()
+    .store_uint(0x18, 6)               ;; flags
+    .store_slice(dest_addr)            ;; destination address
+    .store_grams(amount)               ;; amount in nanoTON
+    .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)  ;; other fields
+    .end_cell();
+
+  send_raw_message(msg, mode);
+}
+
+() process_transfer(slice sender_addr, int amount) impure {
+  ;; Transfer processing logic
+  ;; Can add custom validation, fees, etc.
+
+  var (seqno, public_key) = load_data();
+
+  ;; Forward the transfer
+  send_grams(sender_addr, amount, 64);
+}

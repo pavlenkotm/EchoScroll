@@ -1,0 +1,20 @@
+{
+  "name": "web3-wallet-integration",
+  "version": "1.0.0",
+  "description": "JavaScript Web3 wallet integration example",
+  "main": "wallet.js",
+  "scripts": {
+    "start": "node wallet.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "web3": "^4.2.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "keywords": ["web3", "ethereum", "wallet", "blockchain"],
+  "author": "",
+  "license": "MIT"
+}

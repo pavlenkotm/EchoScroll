@@ -1,0 +1,37 @@
+name: Update Language Statistics
+
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Count languages
+        id: count
+        run: |
+          LANG_COUNT=$(find examples -mindepth 1 -maxdepth 1 -type d | wc -l)
+          echo "language_count=$LANG_COUNT" >> $GITHUB_OUTPUT
+          echo "Found $LANG_COUNT languages"
+
+      - name: Update README badge
+        run: |
+          LANG_COUNT=${{ steps.count.outputs.language_count }}
+          sed -i "s/languages-[0-9]*+-/languages-${LANG_COUNT}+-/" README.md || true
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update language count badge"
+          git push || true
