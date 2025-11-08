@@ -1,7 +1,7 @@
 # 🌐 EchoScroll - Web3 Multi-Language Playground
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Languages](https://img.shields.io/badge/languages-47+-blue.svg)](#languages)
+[![Languages](https://img.shields.io/badge/languages-41+-blue.svg)](#languages)
 [![Commits](https://img.shields.io/github/commit-activity/m/pavlenkotm/EchoScroll)](https://github.com/pavlenkotm/EchoScroll/commits)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Stars](https://img.shields.io/github/stars/pavlenkotm/EchoScroll?style=social)](https://github.com/pavlenkotm/EchoScroll/stargazers)
