@@ -44,7 +44,6 @@ export const uploadToIpfs = async (content: ScrollContent): Promise<string> => {
     const result = await client.add(contentString);
     return result.path; // Returns IPFS hash
   } catch (error) {
-    console.error('Error uploading to IPFS:', error);
     throw new Error('Failed to upload content to IPFS');
   }
 };
@@ -64,7 +63,6 @@ export const fetchFromIpfs = async (hash: string): Promise<ScrollContent> => {
     const content = await response.json();
     return content as ScrollContent;
   } catch (error) {
-    console.error('Error fetching from IPFS:', error);
     throw new Error('Failed to retrieve content from IPFS');
   }
 };

@@ -40,7 +40,7 @@ export default function ScrollCard({ scroll, currentUser, onDeleted }: ScrollCar
         const scrollContent = await fetchFromIpfs(scroll.ipfsHash);
         setContent(scrollContent);
       } catch (err) {
-        console.error('Error loading content from IPFS:', err);
+        // Failed to load content
       } finally {
         setLoadingContent(false);
       }
@@ -74,13 +74,9 @@ export default function ScrollCard({ scroll, currentUser, onDeleted }: ScrollCar
       const signer = await provider.getSigner();
       const contract = getContract(signer);
 
-      console.log('🔮 Casting deletion spell for scroll', scroll.id.toString());
-
       const tx = await contract.castDeletionSpell(scroll.id, deletionSpell);
-      console.log('📝 Transaction sent:', tx.hash);
 
       await tx.wait();
-      console.log('✨ Scroll deleted successfully!');
 
       // Start vanishing animation
       setIsVanishing(true);
@@ -92,8 +88,6 @@ export default function ScrollCard({ scroll, currentUser, onDeleted }: ScrollCar
       }, 1000);
 
     } catch (err: any) {
-      console.error('Error casting deletion spell:', err);
-
       if (err.message?.includes('spell was incorrectly cast')) {
         setDeleteError('The spell was incorrectly cast! Check your secret phrase.');
       } else if (err.message?.includes('user rejected')) {
