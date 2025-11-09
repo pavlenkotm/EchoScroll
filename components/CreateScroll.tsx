@@ -56,7 +56,6 @@ export default function CreateScroll() {
 
     try {
       // Step 1: Upload to IPFS
-      console.log('📜 Uploading scroll to IPFS...');
       const ipfsHash = await uploadToIpfs({
         title,
         content,
@@ -64,24 +63,17 @@ export default function CreateScroll() {
         timestamp: Date.now(),
       });
 
-      console.log('✅ IPFS hash:', ipfsHash);
-
       // Step 2: Generate spell hash
       const spellHash = generateSpellHash(secretSpell);
-      console.log('🔮 Spell hash generated');
 
       // Step 3: Publish to blockchain
-      console.log('⛓️ Publishing to blockchain...');
-
       const provider = new ethers.BrowserProvider(walletClient as any);
       const signer = await provider.getSigner();
       const contract = getContract(signer);
 
       const tx = await contract.publishScroll(ipfsHash, spellHash, title);
-      console.log('📝 Transaction sent:', tx.hash);
 
-      const receipt = await tx.wait();
-      console.log('✨ Scroll published! Receipt:', receipt);
+      await tx.wait();
 
       setSuccess(`Scroll successfully inscribed! Transaction: ${tx.hash.slice(0, 10)}...`);
 
@@ -94,7 +86,6 @@ export default function CreateScroll() {
       }, 5000);
 
     } catch (err: any) {
-      console.error('Error publishing scroll:', err);
       setError(err.message || 'Failed to publish scroll. Please try again.');
     } finally {
       setIsPublishing(false);

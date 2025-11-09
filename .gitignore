@@ -4,9 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
+node_modules/
+vendor/
 
 # testing
 /coverage
+coverage/
+.nyc_output/
+.pytest_cache/
 
 # next.js
 /.next/
@@ -14,19 +19,28 @@
 
 # production
 /build
+/dist
+build/
+dist/
+out/
 
 # misc
 .DS_Store
 *.pem
+*.swp
+*.swo
+*~
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # local env files
 .env
 .env*.local
+.env.local
 
 # vercel
 .vercel
@@ -44,24 +58,65 @@ typechain-types/
 # secrets
 .secret
 private.key
-.env
-.env.local
-.env.*.local
-node_modules/
-.next/
-out/
-dist/
-build/
-*.log
-npm-debug.log*
-coverage/
-.nyc_output/
-.DS_Store
-*.swp
-*.swo
-*~
+
+# IDEs
 .vscode/
 .idea/
 *.iml
 .cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+.venv/
+venv/
+ENV/
+env/
+
+# Java
+*.class
+.gradle/
+target/
+*.jar
+*.war
+*.ear
+
+# Scala
+.metals/
+.bloop/
+
+# Haskell
+.stack-work/
+*.hi
+*.o
+
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Go
+*.exe
+*.test
+*.out
+bin/
+
+# WebAssembly
+*.wasm
+
+# Anchor (Solana)
+.anchor/
+
+# Build directories
+_build/
+.build/
+
+# Lock files (keep package-lock.json but ignore others if needed)
+# yarn.lock
+# pnpm-lock.yaml
 

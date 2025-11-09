@@ -40,7 +40,6 @@ export default function ScrollFeed() {
 
       // Get all active scroll IDs
       const activeScrollIds = await contract.getActiveScrolls();
-      console.log('Active scrolls:', activeScrollIds);
 
       // Fetch details for each scroll
       const scrollDetails = await Promise.all(
@@ -55,7 +54,6 @@ export default function ScrollFeed() {
               title,
             };
           } catch (err) {
-            console.error(`Error fetching scroll ${id}:`, err);
             return null;
           }
         })
@@ -68,7 +66,6 @@ export default function ScrollFeed() {
 
       setScrolls(validScrolls);
     } catch (err: any) {
-      console.error('Error loading scrolls:', err);
       setError('Failed to load scrolls from the blockchain');
     } finally {
       setLoading(false);
