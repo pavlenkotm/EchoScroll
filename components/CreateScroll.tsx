@@ -31,7 +31,7 @@ export default function CreateScroll() {
       'quote', 'unordered-list', 'ordered-list', '|',
       'link', 'image', '|',
       'preview', 'side-by-side', 'fullscreen'
-    ],
+    ] as any,
   }), []);
 
   const handlePublish = async () => {

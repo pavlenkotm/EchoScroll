@@ -1,14 +1,21 @@
-import { create, IPFSHTTPClient } from 'ipfs-http-client';
+import type { IPFSHTTPClient } from 'ipfs-http-client';
 
 let ipfsClient: IPFSHTTPClient | null = null;
 
-export const getIpfsClient = (): IPFSHTTPClient => {
+export const getIpfsClient = async (): Promise<IPFSHTTPClient> => {
+  if (typeof window === 'undefined') {
+    throw new Error('IPFS client can only be initialized on the client side');
+  }
+
   if (!ipfsClient) {
-    const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID || process.env.IPFS_PROJECT_ID;
-    const projectSecret = process.env.NEXT_PUBLIC_IPFS_PROJECT_SECRET || process.env.IPFS_PROJECT_SECRET;
+    // Dynamic import to avoid SSR issues
+    const { create } = await import('ipfs-http-client');
+
+    const projectId = process.env.NEXT_PUBLIC_IPFS_PROJECT_ID;
+    const projectSecret = process.env.NEXT_PUBLIC_IPFS_PROJECT_SECRET;
 
     if (projectId && projectSecret) {
-      const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+      const auth = 'Basic ' + btoa(projectId + ':' + projectSecret);
 
       ipfsClient = create({
         url: process.env.NEXT_PUBLIC_IPFS_API_URL || 'https://ipfs.infura.io:5001',
@@ -39,7 +46,7 @@ export interface ScrollContent {
  */
 export const uploadToIpfs = async (content: ScrollContent): Promise<string> => {
   try {
-    const client = getIpfsClient();
+    const client = await getIpfsClient();
     const contentString = JSON.stringify(content);
     const result = await client.add(contentString);
     return result.path; // Returns IPFS hash

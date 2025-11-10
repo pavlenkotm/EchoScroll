@@ -3,17 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --font-inter: 'Inter', sans-serif;
-  --font-cinzel: 'Cinzel', serif;
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  --font-inter: system-ui, -apple-system, sans-serif;
+  --font-cinzel: Georgia, serif;
 }
 
 @layer utilities {

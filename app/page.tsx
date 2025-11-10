@@ -7,6 +7,9 @@ import { useAccount } from 'wagmi';
 import ScrollFeed from '@/components/ScrollFeed';
 import CreateScroll from '@/components/CreateScroll';
 
+// Prevent static generation for this page
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'feed' | 'create'>('feed');
   const { isConnected } = useAccount();
