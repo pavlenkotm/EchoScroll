@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAccount, usePublicClient } from 'wagmi';
 import { ethers } from 'ethers';
 import { BookOpen, Loader2 } from 'lucide-react';
@@ -23,7 +23,7 @@ export default function ScrollFeed() {
   const { address } = useAccount();
   const publicClient = usePublicClient();
 
-  const loadScrolls = async () => {
+  const loadScrolls = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
@@ -70,11 +70,11 @@ export default function ScrollFeed() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [publicClient]);
 
   useEffect(() => {
     loadScrolls();
-  }, [publicClient]);
+  }, [loadScrolls]);
 
   const handleScrollDeleted = () => {
     // Reload scrolls when one is deleted

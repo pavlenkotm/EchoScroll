@@ -35,7 +35,7 @@ export const zkSyncEraTestnet = {
 
 export const config = getDefaultConfig({
   appName: 'EchoScroll',
-  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '', // Get from https://cloud.walletconnect.com
+  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'a01e1cb88a3f8b6c1e94e5f123456789', // Get your own from https://cloud.walletconnect.com
   chains: [zkSyncEraTestnet, zkSyncEra, mainnet, sepolia],
   ssr: true,
 });

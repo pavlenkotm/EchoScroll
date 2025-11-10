@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-
-const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
-const cinzel = Cinzel({ subsets: ["latin"], variable: '--font-cinzel' });
 
 export const metadata: Metadata = {
   title: "EchoScroll - The Eternal Blockchain Library",
@@ -18,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${cinzel.variable} font-sans antialiased bg-gradient-to-br from-mystic-blue via-purple-900 to-mystic-purple min-h-screen`}>
+      <body className="font-sans antialiased bg-gradient-to-br from-mystic-blue via-purple-900 to-mystic-purple min-h-screen">
         <Providers>
           {children}
         </Providers>
