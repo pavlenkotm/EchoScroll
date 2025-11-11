@@ -123,26 +123,43 @@ contract EchoScroll {
 
     /**
      * @dev Get all active scroll IDs
+     * @return An array of active scroll IDs
      */
     function getActiveScrolls() external view returns (uint256[] memory) {
-        uint256 activeCount = 0;
-        for (uint256 i = 0; i < activeScrollIds.length; i++) {
-            if (scrolls[activeScrollIds[i]].exists) {
-                activeCount++;
-            }
+        return activeScrollIds;
+    }
+
+    /**
+     * @dev Get paginated active scroll IDs for better gas efficiency
+     * @param _offset Starting index
+     * @param _limit Number of items to return
+     * @return result Array of scroll IDs
+     * @return total Total number of active scrolls
+     */
+    function getActiveScrollsPaginated(uint256 _offset, uint256 _limit)
+        external
+        view
+        returns (uint256[] memory result, uint256 total)
+    {
+        total = activeScrollIds.length;
+
+        if (_offset >= total) {
+            return (new uint256[](0), total);
         }
 
-        uint256[] memory result = new uint256[](activeCount);
-        uint256 currentIndex = 0;
-
-        for (uint256 i = 0; i < activeScrollIds.length; i++) {
-            if (scrolls[activeScrollIds[i]].exists) {
-                result[currentIndex] = activeScrollIds[i];
-                currentIndex++;
-            }
+        uint256 end = _offset + _limit;
+        if (end > total) {
+            end = total;
         }
 
-        return result;
+        uint256 length = end - _offset;
+        result = new uint256[](length);
+
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = activeScrollIds[_offset + i];
+        }
+
+        return (result, total);
     }
 
     /**
@@ -171,23 +188,40 @@ contract EchoScroll {
     }
 
     /**
-     * @dev Get scrolls by author
+     * @dev Get all scrolls by author (including deleted ones)
+     * @param _author Address of the author
+     * @return Array of scroll IDs
      */
     function getScrollsByAuthor(address _author)
         external
         view
         returns (uint256[] memory)
     {
+        return authorScrolls[_author];
+    }
+
+    /**
+     * @dev Get only active scrolls by author
+     * @param _author Address of the author
+     * @return result Array of active scroll IDs
+     */
+    function getActiveScrollsByAuthor(address _author)
+        external
+        view
+        returns (uint256[] memory result)
+    {
         uint256[] memory authorScrollList = authorScrolls[_author];
         uint256 existingCount = 0;
 
+        // Count active scrolls
         for (uint256 i = 0; i < authorScrollList.length; i++) {
             if (scrolls[authorScrollList[i]].exists) {
                 existingCount++;
             }
         }
 
-        uint256[] memory result = new uint256[](existingCount);
+        // Build result array
+        result = new uint256[](existingCount);
         uint256 currentIndex = 0;
 
         for (uint256 i = 0; i < authorScrollList.length; i++) {
@@ -222,8 +256,41 @@ contract EchoScroll {
 
     /**
      * @dev Check if a scroll exists
+     * @param _scrollId ID of the scroll to check
+     * @return bool True if scroll exists
      */
     function scrollExistsPublic(uint256 _scrollId) external view returns (bool) {
         return scrolls[_scrollId].exists;
+    }
+
+    /**
+     * @dev Get multiple scrolls at once (batch operation)
+     * @param _scrollIds Array of scroll IDs
+     * @return scrollData Array of scroll data tuples
+     */
+    function getScrollsBatch(uint256[] calldata _scrollIds)
+        external
+        view
+        returns (
+            Scroll[] memory scrollData
+        )
+    {
+        scrollData = new Scroll[](_scrollIds.length);
+
+        for (uint256 i = 0; i < _scrollIds.length; i++) {
+            if (scrolls[_scrollIds[i]].exists) {
+                scrollData[i] = scrolls[_scrollIds[i]];
+            }
+        }
+
+        return scrollData;
+    }
+
+    /**
+     * @dev Get count of active scrolls
+     * @return uint256 Number of active scrolls
+     */
+    function getActiveScrollCount() external view returns (uint256) {
+        return activeScrollIds.length;
     }
 }

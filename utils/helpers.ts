@@ -157,3 +157,88 @@ export const validateSpellStrength = (spell: string): {
     };
   }
 };
+
+/**
+ * Format large numbers with K, M, B suffixes
+ */
+export const formatNumber = (num: number): string => {
+  if (num >= 1_000_000_000) {
+    return `${(num / 1_000_000_000).toFixed(1)}B`;
+  }
+  if (num >= 1_000_000) {
+    return `${(num / 1_000_000).toFixed(1)}M`;
+  }
+  if (num >= 1_000) {
+    return `${(num / 1_000).toFixed(1)}K`;
+  }
+  return num.toString();
+};
+
+/**
+ * Debounce function to limit function calls
+ */
+export const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): ((...args: Parameters<T>) => void) => {
+  let timeout: NodeJS.Timeout | null = null;
+
+  return (...args: Parameters<T>) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
+/**
+ * Sleep/delay function
+ */
+export const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+/**
+ * Retry async function with exponential backoff
+ */
+export const retryWithBackoff = async <T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> => {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      await sleep(baseDelay * Math.pow(2, i));
+    }
+  }
+  throw new Error('Max retries exceeded');
+};
+
+/**
+ * Check if string is valid JSON
+ */
+export const isValidJson = (str: string): boolean => {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Convert Wei to ETH
+ */
+export const weiToEth = (wei: bigint | string): string => {
+  const weiValue = typeof wei === 'string' ? BigInt(wei) : wei;
+  return (Number(weiValue) / 1e18).toFixed(6);
+};
+
+/**
+ * Convert ETH to Wei
+ */
+export const ethToWei = (eth: number | string): bigint => {
+  const ethValue = typeof eth === 'string' ? parseFloat(eth) : eth;
+  return BigInt(Math.floor(ethValue * 1e18));
+};

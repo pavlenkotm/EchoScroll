@@ -43,6 +43,9 @@ export interface ScrollContent {
 
 /**
  * Upload scroll content to IPFS
+ * @param content - The scroll content to upload
+ * @returns The IPFS hash (CID)
+ * @throws Error if upload fails
  */
 export const uploadToIpfs = async (content: ScrollContent): Promise<string> => {
   try {
@@ -51,33 +54,82 @@ export const uploadToIpfs = async (content: ScrollContent): Promise<string> => {
     const result = await client.add(contentString);
     return result.path; // Returns IPFS hash
   } catch (error) {
-    throw new Error('Failed to upload content to IPFS');
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('IPFS upload failed:', message);
+    throw new Error(`Failed to upload content to IPFS: ${message}`);
   }
 };
 
 /**
  * Retrieve scroll content from IPFS
+ * @param hash - The IPFS hash (CID) to fetch
+ * @param timeout - Optional timeout in milliseconds (default: 30000)
+ * @returns The scroll content
+ * @throws Error if fetch fails or times out
  */
-export const fetchFromIpfs = async (hash: string): Promise<ScrollContent> => {
+export const fetchFromIpfs = async (hash: string, timeout: number = 30000): Promise<ScrollContent> => {
   try {
     const gateway = process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/ipfs/';
-    const response = await fetch(`${gateway}${hash}`);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    const response = await fetch(`${gateway}${hash}`, {
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
-      throw new Error('Failed to fetch from IPFS');
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
     const content = await response.json();
+
+    // Validate content structure
+    if (!content.title || !content.content || !content.author) {
+      throw new Error('Invalid scroll content structure');
+    }
+
     return content as ScrollContent;
   } catch (error) {
-    throw new Error('Failed to retrieve content from IPFS');
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('IPFS fetch failed:', message);
+    throw new Error(`Failed to retrieve content from IPFS: ${message}`);
   }
 };
 
 /**
  * Get IPFS gateway URL for a hash
+ * @param hash - The IPFS hash (CID)
+ * @returns The full gateway URL
  */
 export const getIpfsUrl = (hash: string): string => {
   const gateway = process.env.NEXT_PUBLIC_IPFS_GATEWAY || 'https://ipfs.io/ipfs/';
   return `${gateway}${hash}`;
+};
+
+/**
+ * Validate IPFS hash format (basic validation)
+ * @param hash - The hash to validate
+ * @returns True if hash appears to be valid
+ */
+export const isValidIpfsHash = (hash: string): boolean => {
+  // Check for CIDv0 (Qm...) or CIDv1 (b...)
+  return /^Qm[1-9A-HJ-NP-Za-km-z]{44}$/.test(hash) || /^b[a-z2-7]{58}$/.test(hash);
+};
+
+/**
+ * Pin content to IPFS (if using a service that supports pinning)
+ * @param hash - The IPFS hash to pin
+ * @returns Success status
+ */
+export const pinToIpfs = async (hash: string): Promise<boolean> => {
+  try {
+    const client = await getIpfsClient();
+    await client.pin.add(hash);
+    return true;
+  } catch (error) {
+    console.error('IPFS pinning failed:', error);
+    return false;
+  }
 };
