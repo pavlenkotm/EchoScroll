@@ -1,12 +1,12 @@
 # 🌐 EchoScroll - Web3 Multi-Language Playground
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Languages](https://img.shields.io/badge/languages-41+-blue.svg)](#languages)
+[![Languages](https://img.shields.io/badge/languages-53+-blue.svg)](#languages)
 [![Commits](https://img.shields.io/github/commit-activity/m/pavlenkotm/EchoScroll)](https://github.com/pavlenkotm/EchoScroll/commits)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Stars](https://img.shields.io/github/stars/pavlenkotm/EchoScroll?style=social)](https://github.com/pavlenkotm/EchoScroll/stargazers)
 
-> A comprehensive showcase of blockchain and Web3 development across **47+ programming languages**. From smart contracts to mobile SDKs, this repository demonstrates modern Web3 development patterns and best practices across the entire Web3 ecosystem.
+> A comprehensive showcase of blockchain and Web3 development across **53+ programming languages**. From smart contracts to mobile SDKs, including exotic and esoteric languages, this repository demonstrates modern Web3 development patterns and best practices across the entire Web3 ecosystem.
 
 ## 🎯 Overview
 
@@ -104,7 +104,18 @@ cd examples/[language]
 |----------|----------|---------|-------------|
 | **Prolog** | Logic | [examples/prolog/](examples/prolog/) | Blockchain validation |
 
-### Total: **47 Programming Languages**
+### Esoteric & Exotic Languages (6)
+
+| Language | Type | Example | Description |
+|----------|------|---------|-------------|
+| **Brainfuck** | Minimalist | [examples/brainfuck/](examples/brainfuck/) | Turing-complete with 8 commands |
+| **Whitespace** | Steganographic | [examples/whitespace/](examples/whitespace/) | Only spaces, tabs, linefeeds |
+| **LOLCODE** | Meme-based | [examples/lolcode/](examples/lolcode/) | LOLcat speak programming |
+| **ArnoldC** | Movie quotes | [examples/arnoldc/](examples/arnoldc/) | Arnold Schwarzenegger language |
+| **Befunge** | 2D Grid | [examples/befunge/](examples/befunge/) | Two-dimensional execution |
+| **Chef** | Recipe format | [examples/chef/](examples/chef/) | Programs as cooking recipes |
+
+### Total: **53 Programming Languages**
 
 ### Utilities & Tools
 
@@ -184,7 +195,8 @@ ECDSA signature creation and verification.
 ## 💡 Key Features
 
 ### ✨ Comprehensive Coverage
-- **47+ programming languages** across all paradigms
+- **53+ programming languages** across all paradigms
+- **6 esoteric/exotic languages** for educational fun
 - **15+ blockchain platforms** and L2 solutions
 - **Automated CI/CD** with GitHub Actions
 - **Production-ready code** with best practices
@@ -300,11 +312,17 @@ go test
 - [x] AssemblyScript (WASM)
 - [x] Bash (DevOps)
 
-### Phase 2: Advanced Features 🚧
-- [ ] Cairo (StarkNet)
-- [ ] Ink! (Polkadot)
-- [ ] Clarity (Stacks)
-- [ ] Michelson (Tezos)
+### Phase 2: Advanced Features ✅
+- [x] Cairo (StarkNet)
+- [x] Ink! (Polkadot)
+- [x] Clarity (Stacks)
+- [x] Michelson (Tezos)
+- [x] Brainfuck (Esoteric)
+- [x] Whitespace (Esoteric)
+- [x] LOLCODE (Esoteric)
+- [x] ArnoldC (Esoteric)
+- [x] Befunge (Esoteric)
+- [x] Chef (Esoteric)
 - [ ] Advanced DeFi examples
 - [ ] ZK-proof implementations
 - [ ] Cross-chain bridges
@@ -344,12 +362,13 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 | Metric | Value |
 |--------|-------|
-| **Programming Languages** | **47+** |
+| **Programming Languages** | **53+** |
+| **Esoteric Languages** | **6** |
 | **Smart Contract Platforms** | **15+** |
-| **Working Examples** | **50+** |
-| **Lines of Code** | **25,000+** |
+| **Working Examples** | **60+** |
+| **Lines of Code** | **32,000+** |
 | **Test Coverage** | **85%+** |
-| **Documentation Files** | **60+** |
+| **Documentation Files** | **75+** |
 | **Blockchain Ecosystems** | Ethereum, Solana, Polkadot, Cardano, TON, StarkNet, Fuel, Tezos, Stacks, Aptos, Sui, NEAR |
 
 ---

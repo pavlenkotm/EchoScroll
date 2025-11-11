@@ -1,0 +1,34 @@
+IT'S SHOWTIME
+
+TALK TO THE HAND "=== BLOCKCHAIN BLOCK COUNTER ==="
+TALK TO THE HAND ""
+
+HEY CHRISTMAS TREE blockNumber
+YOU SET US UP 0
+
+HEY CHRISTMAS TREE maxBlocks
+YOU SET US UP 10
+
+TALK TO THE HAND "Starting blockchain synchronization..."
+TALK TO THE HAND ""
+
+STICK AROUND blockNumber
+  GET TO THE CHOPPER blockNumber
+  HERE IS MY INVITATION blockNumber
+  GET UP 1
+  ENOUGH TALK
+
+  TALK TO THE HAND "Block mined: "
+  TALK TO THE HAND blockNumber
+
+  GET TO THE CHOPPER blockNumber
+  HERE IS MY INVITATION blockNumber
+  LET OFF SOME STEAM BENNET maxBlocks
+  ENOUGH TALK
+CHILL
+
+TALK TO THE HAND ""
+TALK TO THE HAND "Blockchain synchronized! Total blocks: "
+TALK TO THE HAND maxBlocks
+
+YOU HAVE BEEN TERMINATED
