@@ -1,12 +1,12 @@
 # 🌐 EchoScroll - Web3 Multi-Language Playground
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Languages](https://img.shields.io/badge/languages-47+-blue.svg)](#languages)
+[![Languages](https://img.shields.io/badge/languages-48+-blue.svg)](#languages)
 [![Commits](https://img.shields.io/github/commit-activity/m/pavlenkotm/EchoScroll)](https://github.com/pavlenkotm/EchoScroll/commits)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Stars](https://img.shields.io/github/stars/pavlenkotm/EchoScroll?style=social)](https://github.com/pavlenkotm/EchoScroll/stargazers)
 
-> A comprehensive showcase of blockchain and Web3 development across **53+ programming languages**. From smart contracts to mobile SDKs, including exotic and esoteric languages, this repository demonstrates modern Web3 development patterns and best practices across the entire Web3 ecosystem.
+> A comprehensive showcase of blockchain and Web3 development across **54+ programming languages**. From smart contracts to mobile SDKs, including exotic and esoteric languages, this repository demonstrates modern Web3 development patterns and best practices across the entire Web3 ecosystem.
 
 ## 🎯 Overview
 
@@ -26,7 +26,7 @@ cd examples/[language]
 
 ## 📚 Languages & Technologies
 
-### Smart Contract Languages (15)
+### Smart Contract Languages (16)
 
 | Language | Platform | Example | Description |
 |----------|----------|---------|-------------|
@@ -45,6 +45,7 @@ cd examples/[language]
 | **Haskell (Plutus)** | Cardano | [examples/haskell-plutus/](examples/haskell-plutus/) | Functional contracts |
 | **AssemblyScript** | NEAR (WASM) | [examples/assemblyscript/](examples/assemblyscript/) | TypeScript-like WASM |
 | **Solidity Advanced** | EVM | [examples/solidity-advanced/](examples/solidity-advanced/) | Advanced patterns |
+| **Motoko** | Internet Computer | [examples/motoko/](examples/motoko/) | Actor-based ICP contracts |
 
 ### SDKs & Client Libraries (10)
 
@@ -115,7 +116,7 @@ cd examples/[language]
 | **Befunge** | 2D Grid | [examples/befunge/](examples/befunge/) | Two-dimensional execution |
 | **Chef** | Recipe format | [examples/chef/](examples/chef/) | Programs as cooking recipes |
 
-### Total: **53 Programming Languages**
+### Total: **54 Programming Languages**
 
 ### Utilities & Tools
 
@@ -195,9 +196,9 @@ ECDSA signature creation and verification.
 ## 💡 Key Features
 
 ### ✨ Comprehensive Coverage
-- **53+ programming languages** across all paradigms
+- **54+ programming languages** across all paradigms
 - **6 esoteric/exotic languages** for educational fun
-- **15+ blockchain platforms** and L2 solutions
+- **16+ blockchain platforms** and L2 solutions
 - **Automated CI/CD** with GitHub Actions
 - **Production-ready code** with best practices
 
@@ -292,6 +293,7 @@ go test
 | **Sui** | DAG-based | Move | ✅ |
 | **Cardano** | PoS | Haskell | ✅ |
 | **zkSync** | ZK-Rollup | Solidity | ✅ |
+| **Internet Computer** | Chain-key | Motoko, Rust | ✅ |
 
 ---
 
@@ -317,6 +319,7 @@ go test
 - [x] Ink! (Polkadot)
 - [x] Clarity (Stacks)
 - [x] Michelson (Tezos)
+- [x] Motoko (Internet Computer)
 - [x] Brainfuck (Esoteric)
 - [x] Whitespace (Esoteric)
 - [x] LOLCODE (Esoteric)
@@ -362,14 +365,14 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 | Metric | Value |
 |--------|-------|
-| **Programming Languages** | **53+** |
+| **Programming Languages** | **54+** |
 | **Esoteric Languages** | **6** |
-| **Smart Contract Platforms** | **15+** |
+| **Smart Contract Platforms** | **16+** |
 | **Working Examples** | **60+** |
 | **Lines of Code** | **32,000+** |
 | **Test Coverage** | **85%+** |
 | **Documentation Files** | **75+** |
-| **Blockchain Ecosystems** | Ethereum, Solana, Polkadot, Cardano, TON, StarkNet, Fuel, Tezos, Stacks, Aptos, Sui, NEAR |
+| **Blockchain Ecosystems** | Ethereum, Solana, Polkadot, Cardano, TON, StarkNet, Fuel, Tezos, Stacks, Aptos, Sui, NEAR, Internet Computer |
 
 ---
 
@@ -408,6 +411,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 - [Parity Technologies (Substrate)](https://www.parity.io/)
 - [IOG (Cardano)](https://iog.io/)
 - [Matter Labs (zkSync)](https://zksync.io/)
+- [DFINITY Foundation (Internet Computer)](https://dfinity.org/)
 
 ---
 
