@@ -13,10 +13,10 @@ const config: HardhatUserConfig = {
     },
   },
   zksolc: {
-    version: "latest",
+    version: "1.5.3",
     settings: {},
   },
-  defaultNetwork: "zkSyncTestnet",
+  defaultNetwork: "hardhat",
   networks: {
     zkSyncTestnet: {
       url: "https://sepolia.era.zksync.dev",

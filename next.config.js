@@ -22,6 +22,14 @@ const nextConfig = {
       };
     }
 
+    // Ignore test files
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+    config.module.rules.push({
+      test: /node_modules\/thread-stream\/test/,
+      loader: 'ignore-loader',
+    });
+
     return config;
   },
 }
