@@ -3,13 +3,104 @@
 import { useState, useMemo } from 'react';
 import { useAccount, useWalletClient } from 'wagmi';
 import { ethers } from 'ethers';
-import { Wand2, Sparkles, AlertCircle } from 'lucide-react';
+import { Wand2, Sparkles, AlertCircle, ShieldCheck } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { uploadToIpfs } from '@/lib/ipfs';
 import { getContract, generateSpellHash, CONTRACT_ADDRESS } from '@/lib/contract';
 import 'easymde/dist/easymde.min.css';
 
 const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
+
+type SpellStrength = {
+  score: number;
+  label: 'Fragile' | 'Guarded' | 'Fortified' | 'Mythic';
+  suggestions: string[];
+};
+
+const adjectives = [
+  'Luminous',
+  'Silent',
+  'Astral',
+  'Quantum',
+  'Velvet',
+  'Solar',
+  'Glimmering',
+  'Iron',
+  'Opal',
+  'Arcane',
+];
+
+const nouns = [
+  'Phoenix',
+  'Runes',
+  'Cipher',
+  'Nebula',
+  'Obsidian',
+  'Cascade',
+  'Voyager',
+  'Paradox',
+  'Sentinel',
+  'Equinox',
+];
+
+const symbols = ['*', '#', '@', '!', '?', '%', '&', '~'];
+
+const secureRandomIndex = (max: number) => {
+  if (typeof crypto !== 'undefined' && 'getRandomValues' in crypto) {
+    const array = new Uint32Array(1);
+    crypto.getRandomValues(array);
+    return Number(array[0] % max);
+  }
+  return Math.floor(Math.random() * max);
+};
+
+const conjureSpellSuggestion = () => {
+  const adjective = adjectives[secureRandomIndex(adjectives.length)];
+  const noun = nouns[secureRandomIndex(nouns.length)];
+  const symbol = symbols[secureRandomIndex(symbols.length)];
+  const entropyNumbers = secureRandomIndex(9000) + 1000; // 4 digits between 1000-9999
+  return `${adjective}-${noun}-${entropyNumbers}${symbol}`;
+};
+
+const evaluateSpellStrength = (spell: string): SpellStrength => {
+  if (!spell) {
+    return {
+      score: 0,
+      label: 'Fragile',
+      suggestions: ['Use at least 8 characters with symbols, numbers, and mixed case.'],
+    };
+  }
+
+  const lengthScore = Math.min(2, Math.floor(spell.length / 8));
+  const diversityScore = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/].reduce(
+    (score, regex) => (regex.test(spell) ? score + 1 : score),
+    0
+  );
+
+  const entropyScore = Math.max(0, Math.min(2, diversityScore - 1));
+  const score = Math.min(3, lengthScore + entropyScore);
+
+  const labels: SpellStrength['label'][] = ['Fragile', 'Guarded', 'Fortified', 'Mythic'];
+  const suggestions: Record<SpellStrength['label'], string[]> = {
+    Fragile: [
+      'Lengthen the spell beyond 12 characters.',
+      'Mix upper and lower case letters with numbers.',
+      'Add symbols to resist brute force unraveling.',
+    ],
+    Guarded: [
+      'Add more unique characters or a symbol.',
+      'Consider a memorable passphrase instead of a single word.',
+    ],
+    Fortified: ['Great! Add one more unique element to reach mythic strength.'],
+    Mythic: ['This spell is battle-tested. Keep it private!'],
+  };
+
+  return {
+    score,
+    label: labels[score],
+    suggestions: suggestions[labels[score]],
+  };
+};
 
 export default function CreateScroll() {
   const [title, setTitle] = useState('');
@@ -34,6 +125,8 @@ export default function CreateScroll() {
     ] as any,
   }), []);
 
+  const spellStrength = useMemo(() => evaluateSpellStrength(secretSpell), [secretSpell]);
+
   const handlePublish = async () => {
     if (!title.trim() || !content.trim() || !secretSpell.trim()) {
       setError('All fields are required, including your secret deletion spell!');
@@ -47,6 +140,11 @@ export default function CreateScroll() {
 
     if (secretSpell.length < 8) {
       setError('Your spell must be at least 8 characters long for proper protection');
+      return;
+    }
+
+    if (spellStrength.score < 2) {
+      setError('Strengthen your secret spell to at least Fortified before publishing.');
       return;
     }
 
@@ -141,6 +239,54 @@ export default function CreateScroll() {
             className="w-full spell-input"
             disabled={isPublishing}
           />
+          <div className="flex items-center justify-between mt-3 text-sm text-ancient-parchment/80">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className={`w-4 h-4 ${spellStrength.score >= 2 ? 'text-emerald-300' : 'text-amber-300'}`} />
+              <span className="font-semibold">Spell strength: {spellStrength.label}</span>
+            </div>
+            <span>
+              {(spellStrength.score / 3 * 100).toFixed(0)}% entropy
+            </span>
+          </div>
+          <div className="w-full h-2 bg-purple-900/50 rounded-full overflow-hidden mt-2">
+            <div
+              className={`h-full transition-all duration-500 ${
+                spellStrength.label === 'Fragile'
+                  ? 'bg-red-400'
+                  : spellStrength.label === 'Guarded'
+                  ? 'bg-amber-300'
+                  : spellStrength.label === 'Fortified'
+                  ? 'bg-emerald-400'
+                  : 'bg-cyan-300'
+              }`}
+              style={{ width: `${(spellStrength.score / 3) * 100}%` }}
+            />
+          </div>
+          {spellStrength.suggestions.length > 0 && (
+            <ul className="list-disc list-inside text-ancient-parchment/70 text-sm mt-2 space-y-1">
+              {spellStrength.suggestions.map((tip) => (
+                <li key={tip}>{tip}</li>
+              ))}
+            </ul>
+          )}
+          <div className="flex flex-wrap gap-2 mt-3">
+            <button
+              type="button"
+              onClick={() => setSecretSpell(conjureSpellSuggestion())}
+              className="px-3 py-2 rounded-md bg-purple-900/40 border border-spell-gold/30 text-ancient-parchment hover:bg-purple-900/60 transition-colors"
+              disabled={isPublishing}
+            >
+              Conjure a strong spell
+            </button>
+            <button
+              type="button"
+              onClick={() => setSecretSpell(secretSpell + symbols[secureRandomIndex(symbols.length)])}
+              className="px-3 py-2 rounded-md bg-purple-900/20 border border-spell-gold/20 text-ancient-parchment/80 hover:text-ancient-parchment"
+              disabled={isPublishing}
+            >
+              Add another glyph
+            </button>
+          </div>
           <p className="text-ancient-parchment/60 text-sm mt-2">
             This spell is required to delete your scroll. Keep it safe and secret! (min. 8 characters)
           </p>
